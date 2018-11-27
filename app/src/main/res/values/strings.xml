@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FortniteApi</string>
+    <string name="button">Button</string>
+    <string name="search">Search...</string>
+
+
+    <string-array name="spinnerItems">
+    <item>pc</item>
+    <item>xbox</item>
+    <item>ps4</item>
+</string-array>
+</resources>
