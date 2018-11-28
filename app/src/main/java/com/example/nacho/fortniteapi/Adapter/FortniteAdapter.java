@@ -14,13 +14,11 @@ import java.util.List;
 import java.util.SimpleTimeZone;
 
 public class FortniteAdapter extends RecyclerView.Adapter<FortniteAdapter.FortniteViewHolder> {
-    private List<FinalStats> dataList;
+    private List<FinalStats> statsList;
 
-    public FortniteAdapter(List<FinalStats> dataList) {
-        this.dataList = dataList;
-
+    public FortniteAdapter(List<FinalStats> statsList) {
+        this.statsList = statsList;
     }
-
     @NonNull
     @Override
     public FortniteViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -28,27 +26,26 @@ public class FortniteAdapter extends RecyclerView.Adapter<FortniteAdapter.Fortni
         View view = layoutInflater.inflate(R.layout.recycle_card, viewGroup, false);
         return new FortniteViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull FortniteViewHolder fortniteViewHolder, int i) {
-        final FinalStats fnStats = dataList.get(i);
+        final FinalStats fnStats = statsList.get(i);
         putDataInAdapter(fortniteViewHolder, fnStats);
     }
-
-    private void putDataInAdapter(FortniteViewHolder fortniteViewHolder, FinalStats item){
-        fortniteViewHolder.txtLabel.setText(item.getLabel());
-        fortniteViewHolder.txtRank.setText(item.getDisplayValue());
-        fortniteViewHolder.txtDisplayValue.setText(item.getDisplayValue());
+    private void putDataInAdapter(FortniteViewHolder fortniteViewHolder, FinalStats stats){
+        fortniteViewHolder.txtLabel.setText(stats.getLabel());
+        fortniteViewHolder.txtRank.setText(stats.getDisplayValue());
+        fortniteViewHolder.txtDisplayValue.setText(stats.getDisplayValue());
 }
-
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return statsList.size();
     }
 
     public class FortniteViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtLabel, txtRank, txtDisplayValue;
+        private TextView txtLabel;
+        private TextView txtRank;
+        private TextView txtDisplayValue;
 
         public FortniteViewHolder(View itemView) {
             super(itemView);

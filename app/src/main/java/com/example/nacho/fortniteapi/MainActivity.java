@@ -21,7 +21,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private RecyclerView recyclerView;
     private FortniteAdapter fAdapter;
     private Spinner spinner;
@@ -29,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton fabBuscar;
     private FortniteVM forniteViewModel;
-
-
     private String platform;
     private String epic_name;
 
@@ -40,36 +37,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findById();
         btnClick();
+    }
+    private void btnClick() {
+        fabBuscar.setOnClickListener(v -> {
+            platform = spinner.getSelectedItem().toString();
+            epic_name = etPlayer.getText().toString();
+            changePlayer(platform, epic_name);
+            setTitle(epic_name);
+        });
 
     }
-
-    private void changeData(String plattaform, String epic_nickname) {
+    private void changePlayer(String plattaform, String epic_nickname) {
         forniteViewModel = ViewModelProviders.of(this).get(FortniteVM.class);
-        forniteViewModel.playerInfo.observe(this, stadisticObjectData -> {
-            if (stadisticObjectData != null) {
-                Log.d("ServicioFornite", "Cambios: " + stadisticObjectData);
-                generateForniteList(stadisticObjectData);
+        forniteViewModel.playerInfo.observe(this, stadisticsData -> {
+            if (stadisticsData != null) {
+                createListData(stadisticsData);
             }
         });
         forniteViewModel.getData(plattaform, epic_nickname);
     }
 
-    private void generateForniteList(List<FinalStats> listFornite) {
+    private void createListData(List<FinalStats> listFornite) {
         recyclerView = findViewById(R.id.my_recycler_view);
-        fAdapter = new FortniteAdapter(listFornite);
         layoutManager = new GridLayoutManager(this, 2);
+        fAdapter = new FortniteAdapter(listFornite);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(fAdapter);
-    }
-
-    private void btnClick() {
-        fabBuscar.setOnClickListener(v -> {
-            platform = spinner.getSelectedItem().toString();
-            epic_name = etPlayer.getText().toString();
-            changeData(platform, epic_name);
-            setTitle(epic_name);
-        });
-
     }
 
     public void findById() {

@@ -24,7 +24,7 @@ public class FortniteVM extends AndroidViewModel {
 
     private FortniteRepo fr = FortniteRepo.getInstance();
     public MutableLiveData<List<FinalStats>> playerInfo = new MutableLiveData<>();
-    public List<FinalStats> dataList = new ArrayList<FinalStats>();
+    public List<FinalStats> statsList = new ArrayList<FinalStats>();
 
     public FortniteVM(@NonNull Application application) {
         super(application);
@@ -37,40 +37,36 @@ public class FortniteVM extends AndroidViewModel {
     public void getData(String platform, String epic_name) {
         fr.getPlayer(platform, epic_name)
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Player>(){
-
+                .subscribe(new Observer<Player>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override
-                    public void onNext(Player forniteObject) {
+                    public void onNext(Player player) {
                         //liveData.postValue(forniteObjects);
-                        if(forniteObject!=null) {
-                            dataList.clear();
-                            PlayerStatsDetails data = forniteObject.getPlayerStats().getPlayerStatsDetails();
-                            dataList.add(data.getScore());
-                            dataList.add(data.getKDA());
-                            dataList.add(data.getMatches());
-                            dataList.add(data.getTRNRating());
-                            playerInfo.postValue(dataList);
+                        if (player != null) {
+                            statsList.clear();
+                            PlayerStatsDetails data = player.getPlayerStats().getPlayerStatsDetails();
+                            statsList.add(data.getScore());
+                            statsList.add(data.getKDA());
+                            statsList.add(data.getMatches());
+                            statsList.add(data.getTRNRating());
+                            playerInfo.postValue(statsList);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("FalloServicio","err: "+e.getLocalizedMessage());
+                        Log.d("El servicio ha fallado", "err: " + e.getLocalizedMessage());
                     }
 
                     @Override
                     public void onComplete() {
-
                     }
-
                 });
     }
-                           }
+}
 
 
 
